@@ -1,4 +1,5 @@
 let position = 0;
+const slidesLength = document.querySelectorAll('.slider-item').length;
 const slidesToShow = 4;
 const slidesToScroll = 3;
 const container = document.querySelector('.slider-container');
@@ -7,61 +8,49 @@ const track = document.querySelector('.slider-items');
 const btnPrev = document.querySelector('.arrow__item-left');
 const btnNext = document.querySelector('.arrow__item-right');
 const items = document.querySelector('.slider-item');
-const itemsCount = items.length;
-const itemWidth = container.clientWidth / slidesToShow;
-const movePosition = slidesToScroll * itemWidth;
 
-// items.forEach((item) => {
-//     item.style.minWidth = `${itemWidth}px`;
-// });
 
-console.log(container);
+const prevSlide = () => {
+    clearInterval(slideInterval);
+    
+    if (position <= 0) {
+        btnPrev.classList.add('disabled');
+        return;
+    }
+    btnNext.classList.remove('disabled');
+    
 
-btnPrev.addEventListener('click', () => {
-    const itemsLeft = itemsCount - (Math.abs(position) + slidesToShow * itemWidth) / itemWidth;
-
-    position += itemsLeft >= slidesToScroll ? movePosition : itemsLeft * itemWidth;
-
-    setPosition();
-    checkBtns();
-    console.log('btnPrev');
-});
-
-btnNext.addEventListener('click', () => {
-    const itemsLeft = itemsCount - (Math.abs(position) + slidesToShow * itemWidth) / itemWidth;
-
-    position -= itemsLeft >= slidesToScroll ? movePosition : itemsLeft * itemWidth;
-
-    setPosition();
-    checkBtns();
-    console.log('btnNext');
-});
-
-const setPosition = () => {
-    track.style.transform = `translateX(${position}px)`;
+    position--;
+    track.style.transform = `translateX(-${position * 299}px)`;
 };
 
-const checkBtns = () => {
-    btnPrev.disabled = position === 0;
-    btnNext.disabled = position <= -(itemsCount - slidesToShow) * itemWidth;
+const nextSlide = () => {
+    clearInterval(slideInterval);
+
+    if (position >= slidesLength - slidesToShow) {
+        btnNext.classList.add('disabled');
+        return;
+    };
+    btnPrev.classList.remove('disabled');
+    position++;
+    
+    track.style.transform = `translateX(-${position * 299}px)`;
 };
 
-checkBtns();
+const slideInterval = setInterval(() => {
+    nextSlide(); 
+}, 2000);
 
 
-autoSlider();
-let right = 0;
-var timer;
-function autoSlider () {
-    timer = setTimeout(function () {
-        let card = document.querySelector('.card__items');
-        if (right < -512) {
-            right = 0;
-        }
-        card.style.right = right + 'px';
-        autoSlider();
-    }, 1000);
-}
+
+btnPrev.addEventListener('click', prevSlide);
+
+btnNext.addEventListener('click', nextSlide);
+
+
+
+
+
 
 
 

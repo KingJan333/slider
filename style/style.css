@@ -60,16 +60,27 @@ body{
 .header{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .header__title{
     font-weight: 700;
     font-size: 50px;
     line-height: 60px;
+    flex: 1;
 }
 .line{
     border: 1px solid #CCDDFF;
-    
+    width: 360px;
+    height: 0px;
+    margin-right: 40px;
 }
+.line__min{
+    display: block;
+    border: 1px solid #527CCD;
+    width: 60px;
+    height: 0;
+}    
+
 .arrow__items{
     display: flex;
     flex-wrap: wrap;
@@ -83,8 +94,13 @@ body{
     background: url(../img/arrowLeft.svg) no-repeat center;
     color: #527CCD;
 }
-.arrow__item-left:hover, .arrow__item-left:active, .arrow__item-left:focus{
+.arrow__item-left:hover{
     background-color: #CCDDFF;
+}
+.arrow__item-left.disabled{
+    background-color: transparent;
+    opacity: .5;
+    cursor: default;
 }
 .arrow__item-right{
     border: 1px solid #CCDDFF;
@@ -94,17 +110,24 @@ body{
     background: url(../img/arrowRight.svg) no-repeat center;
     color: #527CCD;
 }
-.arrow__item-right:hover, .arrow__item-right:active, .arrow__item-right:focus{
+.arrow__item-right:hover{
     background-color: #CCDDFF;
+}
+.arrow__item-right.disabled{
+    background-color: transparent;
+    opacity: .5;
+    cursor: default;
 }
 .cards{
     overflow: hidden;
 }
 .card__items{
     display: grid;
-    grid-template-columns: repeat(4 , 1fr);
-    grid-gap: 20px;
+    grid-auto-columns: min-content;
+    grid-auto-flow: column;
+    grid-gap: 37px;
     margin-top: 40px;
+    transition: .3s transform ease-in-out;
 }
 .card__item{
     display: flex;
@@ -134,7 +157,4 @@ body{
 }
 .hide{
     display: none;
-}
-.hovered{
-    
 }
